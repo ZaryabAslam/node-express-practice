@@ -1,37 +1,31 @@
 const express = require('express')
 const app = express();
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser')
 const cors = require('cors')
-const mongoose = require('mongoose');
-const authModel = require('./models/authSchema')
-const SignupModel = require('./models/signup');
-const bcrypt = require('bcryptjs');
-const mainRoute = require('./route/mainRoute')
-const PORT = 8080;
+const PORT = 555
+
 
 app.use(cors())
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-mongoose.connect('mongodb+srv://admin:passwordpassword@cluster0.ajxov.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-app.use(mainRoute)
+app.use(bodyParser.json())
 
-mongoose.connection.on('connected', () => {
-    console.log('mongodb connected to node')
-})
-mongoose.connection.on('error', () => {
-    console.log('mongodb not connected to node')
+app.get('/', (req, res)=>{
+    res.sendFile(__dirname +'/index.html')
+    // console.log(__dirname +'/index.html')
 })
 
-app.get('/', (req, res) => {
-    res.send('hello world')
+app.post('/', (req,res)=>{
+    var number1 = Number(req.body.number1)
+    var number2 = Number(req.body.number2)
+    var result = number1 + number2;
+   
+    console.log(req.body.number1, req.body.number2)
+    res.send('th addiion of two numbers is ' + result)
 })
 
 
-app.listen(PORT, () => {
-    console.log(`server running on ${PORT}`)
+
+app.listen(PORT, ()=>{
+    console.log('server connected')
 })
